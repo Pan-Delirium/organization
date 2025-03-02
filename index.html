@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Group Organization Hub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f3;
+            color: #222;
+        }
+        header {
+            background-color: #1b3d2f;
+            color: #cfcfcf;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        nav {
+            background-color: #2b4f3a;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: #cfcfcf;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #a8d5ba;
+        }
+        section {
+            padding: 20px;
+            background-color: #ffffff;
+            margin: 15px auto;
+            max-width: 1100px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border: 1px solid #cfcfcf;
+        }
+        h2 {
+            color: #1b3d2f;
+        }
+        .embedded-frame {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #cfcfcf;
+        }
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #1b3d2f;
+            color: #cfcfcf;
+        }
+        #csv-table-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Group Organization Hub
+</header>
+
+<nav>
+    <a href="#spreadsheet">CSV Viewer</a>
+    <a href="#documents">Documents</a>
+    <a href="#contact">Contact</a>
+</nav>
+
+<section id="spreadsheet">
+    <h2>Locally Hosted CSV Viewer</h2>
+    <p>Upload a CSV file to display it in an interactive table.</p>
+    <input type="file" id="csv-file" accept=".csv">
+    <div id="csv-table-container">
+        <table id="csv-table" class="display" style="width:100%">
+            <thead><tr></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</section>
+
+<section id="documents">
+    <h2>Interactive Document Viewer</h2>
+    <p>Click on the links below to view key documents.</p>
+    <ul>
+        <li><a href="docs/document1.pdf" target="_blank">Document 1 (PDF)</a></li>
+        <li><a href="docs/document2.md" target="_blank">Document 2 (Markdown)</a></li>
+    </ul>
+    <p>Preview a PDF directly below:</p>
+    <iframe class="embedded-frame" src="docs/sample-document.pdf"></iframe>
+</section>
+
+<section id="contact">
+    <h2>Contact & Collaboration</h2>
+    <p>To propose changes, contribute documents, or collaborate, submit a Pull Request to our repository or join the Discussions tab.</p>
+</section>
+
+<footer>
+    &copy; 2025 Group Organization | Managed via GitHub Pages
+</footer>
+
+<script>
+document.getElementById("csv-file").addEventListener("change", function(event) {
+    let file = event.target.files[0];
+    if (!file) return;
+
+    Papa.parse(file, {
+        complete: function(results) {
+            let data = results.data;
+            if (data.length === 0) return;
+
+            let table = $("#csv-table");
+            let tableHead = table.find("thead tr");
+            let tableBody = table.find("tbody");
+
+            tableHead.empty();
+            tableBody.empty();
+
+            data[0].forEach(header => {
+                tableHead.append(`<th>${header}</th>`);
+            });
+
+            data.slice(1).forEach(row => {
+                let rowHtml = "<tr>";
+                row.forEach(cell => {
+                    rowHtml += `<td>${cell}</td>`;
+                });
+                rowHtml += "</tr>";
+                tableBody.append(rowHtml);
+            });
+
+            $("#csv-table").DataTable();
+        }
+    });
+});
+</script>
+
+</body>
+</html>
