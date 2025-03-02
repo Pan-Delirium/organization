@@ -63,6 +63,11 @@
         #csv-table-container {
             margin-top: 20px;
         }
+        select {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -79,8 +84,15 @@
 
 <section id="spreadsheet">
     <h2>Locally Hosted CSV Viewer</h2>
-    <p>Upload a CSV file to display it in an interactive table.</p>
-    <input type="file" id="csv-file" accept=".csv">
+    <p>Select a CSV file from the list to display it in the table below:</p>
+    
+    <!-- Dropdown to select CSV file -->
+    <select id="csv-select">
+        <option value="">--Select a CSV--</option>
+        <option value="sample-data.csv">sample-data.csv</option>
+        <option value="another-data.csv">another-data.csv</option>
+    </select>
+    
     <div id="csv-table-container">
         <table id="csv-table" class="display" style="width:100%">
             <thead><tr></tr></thead>
@@ -91,13 +103,22 @@
 
 <section id="documents">
     <h2>Interactive Document Viewer</h2>
-    <p>Click on the links below to view key documents.</p>
-    <ul>
-        <li><a href="docs/document1.pdf" target="_blank">Document 1 (PDF)</a></li>
-        <li><a href="docs/document2.md" target="_blank">Document 2 (Markdown)</a></li>
-    </ul>
-    <p>Preview a PDF directly below:</p>
-    <iframe class="embedded-frame" src="docs/sample-document.pdf"></iframe>
+    <p>Select a document from the list to view it below:</p>
+    
+    <!-- Dropdown to select document -->
+    <select id="doc-select">
+        <option value="">--Select a Document--</option>
+        <option value="document1.pdf">document1.pdf</option>
+        <option value="document2.md">document2.md</option>
+    </select>
+    
+    <p>Document preview:</p>
+    <div id="doc-viewer">
+        <iframe class="embedded-frame" id="pdf-viewer" src="" style="display:none;"></iframe>
+        <div id="md-viewer" style="display:none;">
+            <!-- Markdown content will be displayed here if selected -->
+        </div>
+    </div>
 </section>
 
 <section id="contact">
@@ -110,38 +131,71 @@
 </footer>
 
 <script>
-document.getElementById("csv-file").addEventListener("change", function(event) {
-    let file = event.target.files[0];
-    if (!file) return;
+// Handle CSV file selection
+document.getElementById("csv-select").addEventListener("change", function(event) {
+    const selectedFile = event.target.value;
+    if (!selectedFile) return;
 
-    Papa.parse(file, {
-        complete: function(results) {
-            let data = results.data;
-            if (data.length === 0) return;
+    fetch(`assets/${selectedFile}`)
+        .then(response => response.text())
+        .then(csvText => {
+            Papa.parse(csvText, {
+                complete: function(results) {
+                    let data = results.data;
+                    if (data.length === 0) return;
 
-            let table = $("#csv-table");
-            let tableHead = table.find("thead tr");
-            let tableBody = table.find("tbody");
+                    let table = $("#csv-table");
+                    let tableHead = table.find("thead tr");
+                    let tableBody = table.find("tbody");
 
-            tableHead.empty();
-            tableBody.empty();
+                    tableHead.empty();
+                    tableBody.empty();
 
-            data[0].forEach(header => {
-                tableHead.append(`<th>${header}</th>`);
+                    data[0].forEach(header => {
+                        tableHead.append(`<th>${header}</th>`);
+                    });
+
+                    data.slice(1).forEach(row => {
+                        let rowHtml = "<tr>";
+                        row.forEach(cell => {
+                            rowHtml += `<td>${cell}</td>`;
+                        });
+                        rowHtml += "</tr>";
+                        tableBody.append(rowHtml);
+                    });
+
+                    $("#csv-table").DataTable();
+                }
             });
+        })
+        .catch(error => console.error('Error loading CSV:', error));
+});
 
-            data.slice(1).forEach(row => {
-                let rowHtml = "<tr>";
-                row.forEach(cell => {
-                    rowHtml += `<td>${cell}</td>`;
-                });
-                rowHtml += "</tr>";
-                tableBody.append(rowHtml);
+// Handle document file selection (PDF/Markdown)
+document.getElementById("doc-select").addEventListener("change", function(event) {
+    const selectedFile = event.target.value;
+    const pdfViewer = document.getElementById("pdf-viewer");
+    const mdViewer = document.getElementById("md-viewer");
+    
+    if (!selectedFile) {
+        pdfViewer.style.display = "none";
+        mdViewer.style.display = "none";
+        return;
+    }
+
+    if (selectedFile.endsWith(".pdf")) {
+        pdfViewer.src = `docs/${selectedFile}`;
+        pdfViewer.style.display = "block";
+        mdViewer.style.display = "none";
+    } else if (selectedFile.endsWith(".md")) {
+        fetch(`docs/${selectedFile}`)
+            .then(response => response.text())
+            .then(mdContent => {
+                mdViewer.innerHTML = marked(mdContent);  // Using the marked library for markdown parsing
+                pdfViewer.style.display = "none";
+                mdViewer.style.display = "block";
             });
-
-            $("#csv-table").DataTable();
-        }
-    });
+    }
 });
 </script>
 
