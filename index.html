@@ -68,6 +68,17 @@
             margin: 10px;
             font-size: 16px;
         }
+        #save-btn {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #1b3d2f;
+            color: #fff;
+            cursor: pointer;
+        }
+        #save-btn:hover {
+            background-color: #2b4f3a;
+        }
     </style>
 </head>
 <body>
@@ -99,6 +110,7 @@
             <tbody></tbody>
         </table>
     </div>
+    <button id="save-btn">Save CSV</button>
 </section>
 
 <section id="documents">
@@ -131,7 +143,7 @@
 </footer>
 
 <script>
-// Handle CSV file selection
+// Handle CSV file selection and display
 document.getElementById("csv-select").addEventListener("change", function(event) {
     const selectedFile = event.target.value;
     if (!selectedFile) return;
@@ -152,13 +164,13 @@ document.getElementById("csv-select").addEventListener("change", function(event)
                     tableBody.empty();
 
                     data[0].forEach(header => {
-                        tableHead.append(`<th>${header}</th>`);
+                        tableHead.append(`<th contenteditable="true">${header}</th>`);
                     });
 
                     data.slice(1).forEach(row => {
                         let rowHtml = "<tr>";
                         row.forEach(cell => {
-                            rowHtml += `<td>${cell}</td>`;
+                            rowHtml += `<td contenteditable="true">${cell}</td>`;
                         });
                         rowHtml += "</tr>";
                         tableBody.append(rowHtml);
@@ -169,6 +181,30 @@ document.getElementById("csv-select").addEventListener("change", function(event)
             });
         })
         .catch(error => console.error('Error loading CSV:', error));
+});
+
+// Save the table back to CSV
+document.getElementById("save-btn").addEventListener("click", function() {
+    let table = document.getElementById("csv-table");
+    let rows = table.getElementsByTagName("tr");
+    let csv = [];
+
+    // Loop through table rows and cells to create CSV data
+    for (let row of rows) {
+        let rowData = [];
+        let cells = row.getElementsByTagName("td");
+        for (let cell of cells) {
+            rowData.push(cell.textContent);
+        }
+        csv.push(rowData.join(","));
+    }
+
+    // Create CSV file and trigger download
+    let csvFile = new Blob([csv.join("\n")], { type: 'text/csv' });
+    let downloadLink = document.createElement("a");
+    downloadLink.download = "edited_data.csv";
+    downloadLink.href = URL.createObjectURL(csvFile);
+    downloadLink.click();
 });
 
 // Handle document file selection (PDF/Markdown)
