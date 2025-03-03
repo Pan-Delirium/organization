@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Group Organization Hub</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,10 +45,10 @@
         h2 {
             color: #1b3d2f;
         }
-        .embedded-frame {
+        iframe {
             width: 100%;
+            border: none;
             height: 600px;
-            border: 1px solid #cfcfcf;
         }
         footer {
             text-align: center;
@@ -60,24 +56,27 @@
             background-color: #1b3d2f;
             color: #cfcfcf;
         }
-        #csv-table-container {
-            margin-top: 20px;
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
         }
-        select {
+        .tabs button {
             padding: 10px;
-            margin: 10px;
-            font-size: 16px;
-        }
-        #save-btn {
-            margin-top: 20px;
-            padding: 10px;
-            font-size: 16px;
             background-color: #1b3d2f;
             color: #fff;
             cursor: pointer;
+            border: none;
+            font-size: 16px;
         }
-        #save-btn:hover {
+        .tabs button:hover {
             background-color: #2b4f3a;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
         }
     </style>
 </head>
@@ -88,49 +87,45 @@
 </header>
 
 <nav>
-    <a href="#spreadsheet">CSV Viewer</a>
+    <a href="#spreadsheet">Google Sheet Viewer</a>
     <a href="#documents">Documents</a>
     <a href="#contact">Contact</a>
 </nav>
 
 <section id="spreadsheet">
-    <h2>Locally Hosted CSV Viewer</h2>
-    <p>Select a CSV file from the list to display it in the table below:</p>
-    
-    <!-- Dropdown to select CSV file -->
-    <select id="csv-select">
-        <option value="">--Select a CSV--</option>
-        <option value="sample-data.csv">sample-data.csv</option>
-        <option value="another-data.csv">another-data.csv</option>
-    </select>
-    
-    <div id="csv-table-container">
-        <table id="csv-table" class="display" style="width:100%">
-            <thead><tr></tr></thead>
-            <tbody></tbody>
-        </table>
+    <h2>Google Sheet Viewer</h2>
+    <p>Use the tabs to navigate between different sheets in the Google Sheet below:</p>
+
+    <!-- Tabs for sheets -->
+    <div class="tabs">
+        <button class="tab-button" data-tab="sheet1">Sheet 1</button>
+        <button class="tab-button" data-tab="sheet2">Sheet 2</button>
+        <button class="tab-button" data-tab="sheet3">Sheet 3</button>
     </div>
-    <button id="save-btn">Save CSV</button>
+
+    <!-- Google Sheet Embed iframes -->
+    <div id="sheet1" class="tab-content">
+        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQEz9zLgPdzz8M1-n1wfn8avXBJb2xxc6PESE0Qv8tL0wpxScDjhZbf-ybOPdPqGzA/pubhtml?widget=true&amp;headers=false"></iframe>
+    </div>
+    <div id="sheet2" class="tab-content">
+        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTZzV0bmjEZUkfE6zWwrZMzVqTADdY5s7Sz8N5dXek-L89J2iPVAY9AFL8c9aDJF-KXkYzpH7pwlIHT/pubhtml?widget=true&amp;headers=false"></iframe>
+    </div>
+    <div id="sheet3" class="tab-content">
+        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT9_w6Fv6c9lnshqgcnCEroevbd5MIbEvjl93sR6m_f_hjbGmyFTR9qMFDJ5zA9zZsT20fNryg7fHNRv/pubhtml?widget=true&amp;headers=false"></iframe>
+    </div>
 </section>
 
 <section id="documents">
     <h2>Interactive Document Viewer</h2>
-    <p>Select a document from the list to view it below:</p>
-    
-    <!-- Dropdown to select document -->
-    <select id="doc-select">
-        <option value="">--Select a Document--</option>
-        <option value="document1.pdf">document1.pdf</option>
-        <option value="document2.md">document2.md</option>
-    </select>
-    
-    <p>Document preview:</p>
-    <div id="doc-viewer">
-        <iframe class="embedded-frame" id="pdf-viewer" src="" style="display:none;"></iframe>
-        <div id="md-viewer" style="display:none;">
-            <!-- Markdown content will be displayed here if selected -->
-        </div>
-    </div>
+    <p>Here are some embedded Google Docs files:</p>
+
+    <!-- Embed Google Doc 1 (e.g., DOCX converted to Google Docs) -->
+    <h3>Document 1</h3>
+    <iframe src="https://docs.google.com/document/d/e/2PACX-1vTS7DHK91n14ymXq5C9zvCm5HiA5FjcXz9-oZJgbYhWYjkKYFhzYBztm7jz0OFcZZ8CZmMKJpsYlLZ0/pub?embedded=true"></iframe>
+
+    <!-- Embed Google Doc 2 -->
+    <h3>Document 2</h3>
+    <iframe src="https://docs.google.com/document/d/e/2PACX-1vQm7zVA5Ljp3yKukFxdzC_E75Q4YWBuzLlZwZgnyrHJNYvj3UuP2-fYgjzrxEdoThQFwKxHEeqWGkmT/pub?embedded=true"></iframe>
 </section>
 
 <section id="contact">
@@ -143,96 +138,19 @@
 </footer>
 
 <script>
-// Handle CSV file selection and display
-document.getElementById("csv-select").addEventListener("change", function(event) {
-    const selectedFile = event.target.value;
-    if (!selectedFile) return;
-
-    fetch(`assets/${selectedFile}`)
-        .then(response => response.text())
-        .then(csvText => {
-            Papa.parse(csvText, {
-                complete: function(results) {
-                    let data = results.data;
-                    if (data.length === 0) return;
-
-                    let table = $("#csv-table");
-                    let tableHead = table.find("thead tr");
-                    let tableBody = table.find("tbody");
-
-                    tableHead.empty();
-                    tableBody.empty();
-
-                    data[0].forEach(header => {
-                        tableHead.append(`<th contenteditable="true">${header}</th>`);
-                    });
-
-                    data.slice(1).forEach(row => {
-                        let rowHtml = "<tr>";
-                        row.forEach(cell => {
-                            rowHtml += `<td contenteditable="true">${cell}</td>`;
-                        });
-                        rowHtml += "</tr>";
-                        tableBody.append(rowHtml);
-                    });
-
-                    $("#csv-table").DataTable();
-                }
-            });
-        })
-        .catch(error => console.error('Error loading CSV:', error));
+// Handle tab switching for Google Sheets
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const targetTab = this.getAttribute('data-tab');
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.getElementById(targetTab).classList.add('active');
+    });
 });
 
-// Save the table back to CSV
-document.getElementById("save-btn").addEventListener("click", function() {
-    let table = document.getElementById("csv-table");
-    let rows = table.getElementsByTagName("tr");
-    let csv = [];
-
-    // Loop through table rows and cells to create CSV data
-    for (let row of rows) {
-        let rowData = [];
-        let cells = row.getElementsByTagName("td");
-        for (let cell of cells) {
-            rowData.push(cell.textContent);
-        }
-        csv.push(rowData.join(","));
-    }
-
-    // Create CSV file and trigger download
-    let csvFile = new Blob([csv.join("\n")], { type: 'text/csv' });
-    let downloadLink = document.createElement("a");
-    downloadLink.download = "edited_data.csv";
-    downloadLink.href = URL.createObjectURL(csvFile);
-    downloadLink.click();
-});
-
-// Handle document file selection (PDF/Markdown)
-document.getElementById("doc-select").addEventListener("change", function(event) {
-    const selectedFile = event.target.value;
-    const pdfViewer = document.getElementById("pdf-viewer");
-    const mdViewer = document.getElementById("md-viewer");
-    
-    if (!selectedFile) {
-        pdfViewer.style.display = "none";
-        mdViewer.style.display = "none";
-        return;
-    }
-
-    if (selectedFile.endsWith(".pdf")) {
-        pdfViewer.src = `docs/${selectedFile}`;
-        pdfViewer.style.display = "block";
-        mdViewer.style.display = "none";
-    } else if (selectedFile.endsWith(".md")) {
-        fetch(`docs/${selectedFile}`)
-            .then(response => response.text())
-            .then(mdContent => {
-                mdViewer.innerHTML = marked(mdContent);  // Using the marked library for markdown parsing
-                pdfViewer.style.display = "none";
-                mdViewer.style.display = "block";
-            });
-    }
-});
+// Activate the first tab by default
+document.querySelector('.tab-button').click();
 </script>
 
 </body>
