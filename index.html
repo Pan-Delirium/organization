@@ -93,8 +93,11 @@
 </nav>
 
 <section id="spreadsheet">
-    <h2>Spreadsheet Viewer</h2>
-    <p>Use the tabs to navigate between different sheets in the Google Sheets below:</p>
+    <h2>5-dimensional Accounting! Success Guaranteed!</h2>
+    <p style="font-size: 0.85em; color: #555;">
+        This is not financial advice, legal advice, spiritual advice, romantic advice, or fashion advice. In fact, it’s barely advice at all. It’s more of a creative thought experiment spiraling out of control like a rogue Excel macro given sentience and a coffee addiction.
+        Any "guarantee of success" mentioned in the title applies only in hypothetical dimensions 4 through 7. In this reality (known to our internal accounting department as "Dimension Boring-Prime"), all guarantees are null, void, revoked, or lost in a very large drawer.
+    </p>
 
     <!-- Tabs for sheets -->
     <div class="tabs">
@@ -120,17 +123,32 @@
 </section>
 
 <section id="documents">
-    <h2>Interactive Document Viewer</h2>
-    <p>Here are some embedded Google Docs files:</p>
+    <h2>Papierkram</h2>
+    <p>Here, go nuts with documentation!</p>
 
-    <!-- Embed Google Doc 1 (e.g., DOCX converted to Google Docs) -->
-    <h3>Document 1</h3>
-    <iframe src="https://docs.google.com/document/d/e/2PACX-1vTS7DHK91n14ymXq5C9zvCm5HiA5FjcXz9-oZJgbYhWYjkKYFhzYBztm7jz0OFcZZ8CZmMKJpsYlLZ0/pub?embedded=true"></iframe>
+    <!-- Tabs for documents -->
+    <div class="tabs">
+        <button class="document-tab-button" data-tab="document1">Camp Descriptions</button>
+        <button class="document-tab-button" data-tab="document2">Meeting Notes</button>
+        <button class="document-tab-button" data-tab="document3">Scripts</button>
+        <button class="document-tab-button" data-tab="document4">Tech Plan</button>
+    </div>
 
-    <!-- Embed Google Doc 2 -->
-    <h3>Document 2</h3>
-    <iframe src="https://docs.google.com/document/d/e/2PACX-1vQm7zVA5Ljp3yKukFxdzC_E75Q4YWBuzLlZwZgnyrHJNYvj3UuP2-fYgjzrxEdoThQFwKxHEeqWGkmT/pub?embedded=true"></iframe>
+    <!-- Document iFrames -->
+    <div id="document1" class="tab-content">
+        <iframe src="https://docs.google.com/document/d/1YRh8m6fBUMFdnsHD_2ScIeuCya-ChLKJqLQWWV_nBpw/edit?tab=t.0?embedded=true"></iframe>
+    </div>
+    <div id="document2" class="tab-content">
+        <iframe src="https://docs.google.com/document/d/1YRh8m6fBUMFdnsHD_2ScIeuCya-ChLKJqLQWWV_nBpw/edit?tab=t.kzuba1fs1i5o?embedded=true"></iframe>
+    </div>
+    <div id="document3" class="tab-content">
+        <iframe src="https://docs.google.com/document/d/1YRh8m6fBUMFdnsHD_2ScIeuCya-ChLKJqLQWWV_nBpw/edit?tab=t.s9hf3sohn0o8?embedded=true"></iframe>
+    </div>
+    <div id="document4" class="tab-content">
+        <iframe src="https://docs.google.com/document/d/1YRh8m6fBUMFdnsHD_2ScIeuCya-ChLKJqLQWWV_nBpw/edit?tab=t.5cc0noct0xv5?embedded=true"></iframe>
+    </div>
 </section>
+
 
 <section id="contact">
     <h2>Contact & Collaboration</h2>
@@ -138,7 +156,7 @@
 </section>
 
 <footer>
-    &copy; 2025 Group Organization | Managed via GitHub Pages
+    &copy; 2025 Pan Delirium | Managed via GitHub Pages
 </footer>
 
 <script>
@@ -155,6 +173,16 @@ document.querySelectorAll('.tab-button').forEach(button => {
 
 // Activate the first tab by default
 document.querySelector('.tab-button').click();
+
+
+// Tab switching for DOCUMENTS
+document.querySelectorAll('.document-tab-button').forEach(button => {
+    button.addEventListener('click', function() {
+        document.querySelectorAll('#documents .tab-content').forEach(tab => tab.classList.remove('active'));
+        document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+    });
+});
+document.querySelector('.document-tab-button').click();  // Activate first document tab
 </script>
 
 </body>
