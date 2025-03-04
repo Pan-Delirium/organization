@@ -99,26 +99,14 @@
         Any "guarantee of success" mentioned in the title applies only in hypothetical dimensions 4 through 7. In this reality (known to our internal accounting department as "Dimension Boring-Prime"), all guarantees are null, void, revoked, or lost in a very large drawer.
     </p>
 
-    <!-- Tabs for sheets -->
-    <div class="tabs">
-        <button class="tab-button" data-tab="sheet1">Conspirators</button>
-        <button class="tab-button" data-tab="sheet2">Roles</button>
-        <button class="tab-button" data-tab="sheet3">Shifts</button>
-        <button class="tab-button" data-tab="sheet4">Food Plan</button>
-    </div>
+    <!-- Tabs (just in case) for sheets -->
+    <!-- <div class="tabs">
+        <button class="tab-button" data-tab="sheet1">Main Organization Stuff</button>
+    </div> -->
 
     <!-- Google Sheet Embed iframes -->
     <div id="sheet1" class="tab-content">
         <iframe src="https://docs.google.com/spreadsheets/d/1Ixn-LIiwlQeSTMHMbqEOrbZ8f9U8ORf0dTNlGA-CfvE/edit#gid=0" width="100%" height="600"></iframe>
-    </div>
-    <div id="sheet2" class="tab-content">
-        <iframe src="https://docs.google.com/spreadsheets/d/1Ixn-LIiwlQeSTMHMbqEOrbZ8f9U8ORf0dTNlGA-CfvE/edit#gid=242580733" width="100%" height="600"></iframe>
-    </div>
-    <div id="sheet3" class="tab-content">
-        <iframe src="https://docs.google.com/spreadsheets/d/1Ixn-LIiwlQeSTMHMbqEOrbZ8f9U8ORf0dTNlGA-CfvE/edit#gid=386786640" width="100%" height="600"></iframe>
-    </div>
-    <div id="sheet4" class="tab-content">
-        <iframe src="https://docs.google.com/spreadsheets/d/1Ixn-LIiwlQeSTMHMbqEOrbZ8f9U8ORf0dTNlGA-CfvE/edit#gid=673172336" width="100%" height="600"></iframe>
     </div>
 </section>
 
@@ -126,26 +114,10 @@
     <h2>Papierkram</h2>
     <p>Here, go nuts with documentation!</p>
 
-    <!-- Tabs for documents -->
-    <div class="tabs">
-        <button class="document-tab-button" data-tab="document1">Camp Descriptions</button>
-        <button class="document-tab-button" data-tab="document2">Meeting Notes</button>
-        <button class="document-tab-button" data-tab="document3">Scripts</button>
-        <button class="document-tab-button" data-tab="document4">Tech Plan</button>
-    </div>
 
     <!-- Document iFrames -->
     <div id="document1" class="tab-content">
         <iframe src="https://docs.google.com/document/d/1YRh8m6fBUMFdnsHD_2ScIeuCya-ChLKJqLQWWV_nBpw/edit?tab=t.0?embedded=true"></iframe>
-    </div>
-    <div id="document2" class="tab-content">
-        <iframe src="https://docs.google.com/document/d/1YRh8m6fBUMFdnsHD_2ScIeuCya-ChLKJqLQWWV_nBpw/edit?tab=t.kzuba1fs1i5o?embedded=true"></iframe>
-    </div>
-    <div id="document3" class="tab-content">
-        <iframe src="https://docs.google.com/document/d/1YRh8m6fBUMFdnsHD_2ScIeuCya-ChLKJqLQWWV_nBpw/edit?tab=t.s9hf3sohn0o8?embedded=true"></iframe>
-    </div>
-    <div id="document4" class="tab-content">
-        <iframe src="https://docs.google.com/document/d/1YRh8m6fBUMFdnsHD_2ScIeuCya-ChLKJqLQWWV_nBpw/edit?tab=t.5cc0noct0xv5?embedded=true"></iframe>
     </div>
 </section>
 
@@ -159,31 +131,6 @@
     &copy; 2025 Pan Delirium | Managed via GitHub Pages
 </footer>
 
-<script>
-// Handle tab switching for Google Sheets
-document.querySelectorAll('.tab-button').forEach(button => {
-    button.addEventListener('click', function() {
-        const targetTab = this.getAttribute('data-tab');
-        document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        document.getElementById(targetTab).classList.add('active');
-    });
-});
-
-// Activate the first tab by default
-document.querySelector('.tab-button').click();
-
-
-// Tab switching for DOCUMENTS
-document.querySelectorAll('.document-tab-button').forEach(button => {
-    button.addEventListener('click', function() {
-        document.querySelectorAll('#documents .tab-content').forEach(tab => tab.classList.remove('active'));
-        document.getElementById(this.getAttribute('data-tab')).classList.add('active');
-    });
-});
-document.querySelector('.document-tab-button').click();  // Activate first document tab
-</script>
 
 </body>
 </html>
